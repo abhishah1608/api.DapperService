@@ -2,9 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Reflection;
-using System.Xml.Linq;
 using Z.Dapper.Plus;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace api.DapperService
 {
