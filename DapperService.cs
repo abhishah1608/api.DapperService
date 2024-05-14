@@ -3,6 +3,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Reflection;
 using System.Xml.Linq;
+using Z.Dapper.Plus;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace api.DapperService
@@ -508,9 +509,44 @@ namespace api.DapperService
             using (var connection = new SqlConnection(connectionstring))
             {
                 connection.Open();
-                connection.InsertBulk<T>(records);
+                connection.BulkInsert<T>(records);
             }
             return result;
+        }
+
+        public async Task<int> BulkInsertAsync<T>(string query, List<T> records) where T : class
+        {
+            int result = 0;
+            using (var connection = new SqlConnection(connectionstring))
+            {
+                await connection.OpenAsync();
+                await connection.BulkInsertAsync<T>(records);
+            }
+            return result;
+        }
+
+        public void CustomBulkUpdate<T>(List<T> entities, List<string> propertieNames) where T : class
+        {
+            var context = new DapperPlusContext();
+
+            propertieNames.ForEach(x =>
+            {
+                context.Entity<T>().Map(x);
+            });
+
+            context.BulkUpdate<T>(entities);
+        }
+
+        public void CustomBulkUpdateAsync<T>(List<T> entities, List<string> propertieNames) where T : class
+        {
+            var context = new DapperPlusContext();
+
+            propertieNames.ForEach(x =>
+            {
+                context.Entity<T>().Map(x);
+            });
+
+            context.BulkUpdateAsync<T>(entities);
         }
 
         /// <summary>

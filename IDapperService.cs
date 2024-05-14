@@ -36,7 +36,7 @@ namespace api.DapperService
         /// <typeparam name="T"></typeparam>
         /// <param name="sql"></param>
         /// <returns></returns>
-        T ExecuteScalar<T>(string sql, DynamicParameters parameters) where T: class;
+        T ExecuteScalar<T>(string sql, DynamicParameters parameters) where T : class;
 
         /// <summary>
         /// 
@@ -44,7 +44,7 @@ namespace api.DapperService
         /// <typeparam name="T"></typeparam>
         /// <param name="sql"></param>
         /// <returns></returns>
-        Task<T> ExecuteScalarAsync<T>(string sql, DynamicParameters parameters) where T: class;
+        Task<T> ExecuteScalarAsync<T>(string sql, DynamicParameters parameters) where T : class;
 
         #endregion scalar Queries
 
@@ -80,10 +80,18 @@ namespace api.DapperService
 
         public Task<T> QueryMultiple<T, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20>(string sql, DynamicParameters parameters, params Type[] types) where T : new();
 
-        public Task<T> ExecuteStoredProcedure<T,T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16,T17,T18,T19,T20>(string spname, DynamicParameters parameters,params Type[] types) where T : new();
+        public Task<T> ExecuteStoredProcedure<T, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20>(string spname, DynamicParameters parameters, params Type[] types) where T : new();
 
         #region Execute non-Query commands.
-        public int BulkInsert<T>(string query, List<T> records) where T: class;
+        public int BulkInsert<T>(string query, List<T> records) where T : class;
+
+        public Task<int> BulkInsertAsync<T>(string query, List<T> records) where T : class;
+
         #endregion Execute non-Query commands.
+
+        public void CustomBulkUpdate<T>(List<T> entities, List<string> propertieNames) where T : class;
+
+        public void CustomBulkUpdateAsync<T>(List<T> entities, List<string> propertieNames) where T : class;
+
     }
 }
