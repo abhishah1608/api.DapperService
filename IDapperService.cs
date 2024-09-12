@@ -25,6 +25,15 @@ namespace api.DapperService
         Task<int> ExecuteScalarAsync(string sql, DynamicParameters parameters);
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sql"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        Task<T> ExecuteScalarAsync<T>(string sql, T obj) where T : class;
+
+        /// <summary>
         /// string sql.
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -70,6 +79,9 @@ namespace api.DapperService
 
         public int Execute(string sql, DynamicParameters parameters);
         public Task<int> ExecuteAsync(string sql, DynamicParameters parameters);
+
+        public Task<int> ExecuteAsync<T>(string sql, T obj);
+
         #endregion NonQuery Commnads - Insert, Update and delete
 
         public Task<T> QueryMultiple<T, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20>(string sql, DynamicParameters parameters, params Type[] types) where T : new();

@@ -95,6 +95,16 @@ namespace api.DapperService
             }
         }
 
+        public async Task<T> ExecuteScalarAsync<T>(string sql, T obj) where T : class
+        {
+            using (var connection = new SqlConnection(connectionstring))
+            {
+                await connection.OpenAsync(); // Asynchronously open the database connection
+
+                // Execute the scalar query asynchronously
+                return await connection.ExecuteScalarAsync<T>(sql, obj);
+            }
+        }
 
 
         public List<T> Query<T>(string sql, DynamicParameters parameters) where T : class
@@ -252,6 +262,34 @@ namespace api.DapperService
                     try
                     {
                         result = await connection.ExecuteAsync(sql, parameters, transaction);
+                        transaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                    }
+                    finally
+                    {
+
+                    }
+
+                }
+                return result;
+            }
+        }
+
+
+        public async Task<int> ExecuteAsync<T>(string sql, T obj)
+        {
+            int result = 0;
+            using (var connection = new SqlConnection(connectionstring))
+            {
+                await connection.OpenAsync();
+                using (var transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        result = await connection.ExecuteAsync(sql, obj, transaction);
                         transaction.Commit();
                     }
                     catch (Exception ex)
