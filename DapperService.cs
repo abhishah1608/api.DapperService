@@ -10,7 +10,7 @@ namespace api.DapperService
     /// <summary>
     /// DapperService. 
     /// </summary>
-    public class DapperService : IDapperService
+    public class DapperService : IDapperService, IDisposable
     {
 
         private string connectionstring = null;
@@ -630,6 +630,11 @@ namespace api.DapperService
                 info = propertyList.Where(p => !p.PropertyType.IsGenericType && p.PropertyType == type).FirstOrDefault();
             }
             return info;
+        }
+
+        public void Dispose()
+        {
+            // dispose free resources.
         }
     }
 }
