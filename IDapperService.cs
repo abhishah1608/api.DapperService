@@ -25,7 +25,7 @@ namespace api.DapperService
         Task<int> ExecuteScalarAsync(string sql, DynamicParameters parameters);
 
         /// <summary>
-        /// 
+        /// ExecuteScalarAsync
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="sql"></param>
